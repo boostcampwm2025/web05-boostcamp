@@ -1,0 +1,28 @@
+{
+  "name": "web05-boostcamp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo project with React frontend and NestJS backend",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel --filter ./packages/* dev",
+    "build": "pnpm --filter ./packages/* build",
+    "test": "pnpm --filter ./packages/* test",
+    "lint": "pnpm --filter ./packages/* lint",
+    "clean": "pnpm --filter ./packages/* clean"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "dependencies": {
+    "eslint-plugin-import": "^2.32.0",
+    "globals": "^16.5.0",
+    "typescript-eslint": "^8.50.0"
+  }
+}
