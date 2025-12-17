@@ -44,7 +44,7 @@ export default function Home() {
           {/* Login Button */}
           <button
             onClick={() => {}}
-            className="border-4 border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-500 py-4 text-2xl font-bold text-white transition-all duration-200 hover:scale-105 hover:from-cyan-400 hover:to-blue-400"
+            className="border-4 border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-500 py-4 text-2xl font-bold text-white shadow-lg shadow-cyan-500/50 transition-all duration-200 hover:scale-105 hover:from-cyan-400 hover:to-blue-400"
             style={{ fontFamily: 'Orbitron' }}
           >
             LOGIN
@@ -53,7 +53,7 @@ export default function Home() {
           {/* Quick Start Button */}
           <button
             onClick={() => {}}
-            className="border-4 border-pink-300 bg-gradient-to-r from-pink-500 to-rose-500 py-4 text-2xl font-bold text-white transition-all duration-200 hover:scale-105 hover:from-pink-400 hover:to-rose-400"
+            className="border-4 border-pink-300 bg-gradient-to-r from-pink-500 to-rose-500 py-4 text-2xl font-bold text-white shadow-lg shadow-pink-500/50 transition-all duration-200 hover:scale-105 hover:from-pink-400 hover:to-rose-400"
             style={{ fontFamily: 'Orbitron' }}
           >
             QUICK START (ONLINE MATCH)
@@ -62,7 +62,7 @@ export default function Home() {
           {/* Self Study Button */}
           <button
             onClick={() => {}}
-            className="border-4 border-purple-300 bg-gradient-to-r from-purple-500 to-indigo-500 py-4 text-2xl font-bold text-white transition-all duration-200 hover:scale-105 hover:from-purple-400 hover:to-indigo-400"
+            className="border-4 border-purple-300 bg-gradient-to-r from-purple-500 to-indigo-500 py-4 text-2xl font-bold text-white shadow-lg shadow-purple-500/50 transition-all duration-200 hover:scale-105 hover:from-purple-400 hover:to-indigo-400"
             style={{ fontFamily: 'Orbitron' }}
           >
             SELF STUDY (SINGLE MODE)
@@ -72,14 +72,14 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => {}}
-              className="border-4 border-amber-300 bg-gradient-to-r from-amber-500 to-orange-500 py-4 text-2xl font-bold text-white transition-all duration-200 hover:scale-105 hover:from-amber-400 hover:to-orange-400"
+              className="border-4 border-amber-300 bg-gradient-to-r from-amber-500 to-orange-500 py-4 text-2xl font-bold text-white shadow-lg shadow-amber-500/50 transition-all duration-200 hover:scale-105 hover:from-amber-400 hover:to-orange-400"
               style={{ fontFamily: 'Orbitron' }}
             >
               LEADERBOARD
             </button>
             <button
               onClick={() => {}}
-              className="border-4 border-emerald-300 bg-gradient-to-r from-emerald-500 to-teal-500 py-4 text-2xl font-bold text-white transition-all duration-200 hover:scale-105 hover:from-emerald-400 hover:to-teal-400"
+              className="border-4 border-emerald-300 bg-gradient-to-r from-emerald-500 to-teal-500 py-4 text-2xl font-bold text-white shadow-lg shadow-emerald-500/50 transition-all duration-200 hover:scale-105 hover:from-emerald-400 hover:to-teal-400"
               style={{ fontFamily: 'Orbitron' }}
             >
               PROBLEM BANK
