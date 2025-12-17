@@ -11,7 +11,6 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
-    "@eslint/js": "^9.39.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.561.0",
@@ -21,19 +20,24 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.23",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "prettier-plugin-tailwindcss": "^0.7.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3",
+    "typescript-eslint": "^8.46.3",
     "vite": "^5.2.0"
   }
 }

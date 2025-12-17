@@ -12,21 +12,15 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "eslint-plugin-import": "^2.32.0",
-    "globals": "^16.5.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "typescript": "^5.3.3",
-    "typescript-eslint": "^8.50.0"
+    "lint-staged": "^16.2.7"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
+    "packages/backend/**/*.{ts,js}": [
+      "pnpm --filter @web05-boostcamp/backend lint"
     ],
-    "*.{json,md,css,html}": [
-      "prettier --write"
+    "packages/frontend/**/*.{ts,tsx,js,jsx}": [
+      "pnpm --filter @web05-boostcamp/frontend lint"
     ]
   },
   "engines": {

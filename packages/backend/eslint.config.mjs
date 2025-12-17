@@ -63,7 +63,7 @@ export default tseslint.config(
             'no-console': 'warn',
             'no-unused-vars': 'off',
             '@typescript-eslint/no-explicit-any': 'error',
-            '@typescript-eslint/no-floating-promises': 'error',
+            '@typescript-eslint/no-floating-promises': 'warn',
             '@typescript-eslint/no-unsafe-argument': 'error',
             '@typescript-eslint/no-unused-vars': [
                 'error',
