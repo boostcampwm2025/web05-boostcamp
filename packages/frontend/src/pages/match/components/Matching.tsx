@@ -1,4 +1,4 @@
-export default function Match() {
+export default function Matching() {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Retro grid background */}
