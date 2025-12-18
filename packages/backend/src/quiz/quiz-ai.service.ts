@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common
 
 import { ClovaClientService } from './clova/clova-client.service';
 import { QUIZ_PROMPTS } from './quiz-prompts';
-import { Question } from './quiz.types';
+import { Question, RoundResult, Submission } from './quiz.types';
 
 @Injectable()
 export class QuizAiService {
@@ -14,9 +14,28 @@ export class QuizAiService {
   async generateQuestion(): Promise<Question[]> {
     const rawContent = await this.clovaClient.callClova({
       systemPrompt: QUIZ_PROMPTS.GENERATOR,
+      userPrompt: '',
     });
 
     return this.parseJsonSafely<Question[]>(rawContent);
+  }
+
+  // 채점
+  async gradeRound(question: Question, submissions: Submission[]): Promise<RoundResult> {
+    const answer = (question as unknown as { answer: string }).answer;
+
+    const userPrompt = `
+      [문제] ${question.question}
+      [정답] ${answer}
+      [제출 답안 목록] ${JSON.stringify(submissions)}
+    `;
+
+    const rawContent = await this.clovaClient.callClova({
+      systemPrompt: QUIZ_PROMPTS.GRADER,
+      userPrompt: userPrompt,
+    });
+
+    return this.parseJsonSafely<RoundResult>(rawContent);
   }
 
   /**
