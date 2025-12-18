@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 
 import '@/index.css';
 
+import { SceneProvider } from '@/feature/useScene.tsx';
 import App from './App.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <SceneProvider>
+      <App />
+    </SceneProvider>
   </React.StrictMode>,
 );
