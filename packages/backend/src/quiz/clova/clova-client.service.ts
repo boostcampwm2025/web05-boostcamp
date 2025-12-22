@@ -12,14 +12,13 @@ import { ClovaApiResponse, ClovaRequestDto } from './clova.type';
 export class ClovaClientService {
   private readonly logger = new Logger(ClovaClientService.name);
   private readonly apiKey: string;
-  private readonly apiUrl =
-    'https://clovastudio.stream.ntruss.com/testapp/v3/chat-completions/HCX-005';
+  private readonly apiUrl = 'https://clovastudio.stream.ntruss.com/v3/chat-completions/HCX-007';
 
   constructor(private readonly configService: ConfigService) {
     this.apiKey = this.configService.get<string>('CLOVA_STUDIO_API_KEY') || '';
   }
 
-  async callClova(dto: ClovaRequestDto): Promise<string> {
+  async callClova<T = never>(dto: ClovaRequestDto): Promise<T> {
     const headers = {
       Authorization: `Bearer ${this.apiKey}`,
       'Content-Type': 'application/json',
@@ -29,14 +28,19 @@ export class ClovaClientService {
     const payload = {
       messages: [
         { role: 'system', content: dto.systemPrompt },
-        { role: 'user', content: dto.userPrompt },
+        { role: 'user', content: dto.userMessage },
       ],
       topP: 0.8,
       topK: 0,
-      maxTokens: 1500,
+      maxCompletionTokens: 1000,
       temperature: 0.5,
-      repeatPenalty: 5.0,
-      includeAiFilters: true,
+      repetitionPenalty: 1.1,
+      thinking: { effort: 'none' },
+      stop: [],
+      responseFormat: {
+        type: 'json',
+        schema: dto.jsonSchema,
+      },
     };
 
     try {
@@ -47,14 +51,9 @@ export class ClovaClientService {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-
-        this.logger.error(`Clova API Error: ${response.status} - ${errorText}`);
-
         throw new BadRequestException(`NCP AI 호출 실패: ${response.status}`);
       }
 
-      // 타입 단언을 사용하여 안전하게 접근
       const data = (await response.json()) as ClovaApiResponse;
       const content = data?.result?.message?.content;
 
@@ -62,7 +61,13 @@ export class ClovaClientService {
         throw new InternalServerErrorException('AI 응답이 비어있습니다.');
       }
 
-      return content;
+      try {
+        return JSON.parse(content) as T;
+      } catch (e) {
+        this.logger.warn('JSON parsing failed, returning string', e);
+
+        return content as unknown as T;
+      }
     } catch (error) {
       this.logger.error('Failed to call Clova API', error);
 
