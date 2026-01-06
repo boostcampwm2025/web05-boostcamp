@@ -1,4 +1,8 @@
+import { useScene } from '@/feature/useScene.tsx';
+
 export default function Home() {
+  const { setScene } = useScene();
+
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Retro grid background */}
@@ -53,7 +57,9 @@ export default function Home() {
 
           {/* Quick Start Button */}
           <button
-            onClick={() => {}}
+            onClick={() => {
+              setScene('match');
+            }}
             className="border-4 border-pink-300 bg-gradient-to-r from-pink-500 to-rose-500 py-4 text-2xl font-bold text-white shadow-lg shadow-pink-500/50 transition-all duration-200 hover:scale-105 hover:from-pink-400 hover:to-rose-400"
             style={{ fontFamily: 'Orbitron' }}
           >
