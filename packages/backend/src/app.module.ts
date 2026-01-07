@@ -23,6 +23,4 @@ import { FeedbackModule } from './feedback/feedback.module';
   controllers: [AppController, HealthController],
   providers: [AppService],
 })
-class AppModule {}
-
-export default AppModule;
+export class AppModule {}
