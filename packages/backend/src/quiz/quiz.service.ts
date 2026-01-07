@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { ClovaClientService } from './clova/clova-client.service';
+import { Question as QuestionEntity } from './entity';
+import { QUIZ_CONSTANTS, QUIZ_ERROR_MESSAGES, QUIZ_LOG_MESSAGES } from './quiz.constants';
 import { QUIZ_PROMPTS } from './quiz-prompts';
 import {
   Difficulty,
@@ -13,14 +15,10 @@ import {
   ShortAnswerQuestion,
   Submission,
 } from './quiz.types';
-import { Question as QuestionEntity } from './entity';
 
 @Injectable()
 export class QuizService {
   private readonly logger = new Logger(QuizService.name);
-  private readonly REQUIRED_QUESTION_COUNT = 5;
-  private readonly DEFAULT_EXPLANATION = ''; // DB에 explanation 필드가 없으므로 빈 문자열 사용
-  private readonly DEFAULT_KEYWORDS: string[] = []; // DB에 keywords 필드가 없으므로 빈 배열 사용
 
   constructor(
     private readonly clovaClient: ClovaClientService,
@@ -39,17 +37,23 @@ export class QuizService {
       .createQueryBuilder('q')
       .where('q.isActive = :isActive', { isActive: true })
       .orderBy('RANDOM()')
-      .limit(this.REQUIRED_QUESTION_COUNT)
+      .limit(QUIZ_CONSTANTS.REQUIRED_QUESTION_COUNT)
       .getMany();
 
     // 2. 질문 개수 검증
-    if (dbQuestions.length < this.REQUIRED_QUESTION_COUNT) {
+    if (dbQuestions.length < QUIZ_CONSTANTS.REQUIRED_QUESTION_COUNT) {
       this.logger.error(
-        `질문 생성 실패: DB에 활성화된 질문이 ${dbQuestions.length}개만 존재 (필요: ${this.REQUIRED_QUESTION_COUNT}개)`,
+        QUIZ_LOG_MESSAGES.INSUFFICIENT_QUESTIONS(
+          dbQuestions.length,
+          QUIZ_CONSTANTS.REQUIRED_QUESTION_COUNT,
+        ),
       );
 
       throw new InternalServerErrorException(
-        `질문 생성에 실패했습니다. (활성화된 질문: ${dbQuestions.length}/${this.REQUIRED_QUESTION_COUNT})`,
+        QUIZ_ERROR_MESSAGES.INSUFFICIENT_QUESTIONS(
+          dbQuestions.length,
+          QUIZ_CONSTANTS.REQUIRED_QUESTION_COUNT,
+        ),
       );
     }
 
@@ -57,9 +61,9 @@ export class QuizService {
     try {
       return dbQuestions.map((q) => this.convertToQuizType(q));
     } catch (error) {
-      this.logger.error('질문 변환 중 오류 발생', error);
+      this.logger.error(QUIZ_LOG_MESSAGES.CONVERSION_ERROR(error as Error));
 
-      throw new InternalServerErrorException('질문 생성 중 오류가 발생했습니다.');
+      throw new InternalServerErrorException(QUIZ_ERROR_MESSAGES.CONVERSION_ERROR);
     }
   }
 
@@ -71,7 +75,7 @@ export class QuizService {
     const base = {
       question: entity.content,
       difficulty: this.mapDifficulty(entity.difficulty),
-      explanation: this.DEFAULT_EXPLANATION,
+      explanation: QUIZ_CONSTANTS.DEFAULT_EXPLANATION,
     };
 
     // questionType에 따라 분기
@@ -84,7 +88,7 @@ export class QuizService {
 
         // 파싱된 데이터 검증
         if (!parsed.options || !parsed.answer) {
-          throw new Error('객관식 질문 데이터 형식 오류: options 또는 answer 누락');
+          throw new Error(QUIZ_ERROR_MESSAGES.MULTIPLE_CHOICE_FORMAT_ERROR);
         }
 
         return {
@@ -94,36 +98,38 @@ export class QuizService {
           answer: parsed.answer,
         } as MultipleChoiceQuestion;
       } catch (error) {
-        this.logger.error(`객관식 질문 변환 실패 (ID: ${entity.id}): ${(error as Error).message}`);
+        this.logger.error(
+          QUIZ_LOG_MESSAGES.MULTIPLE_CHOICE_CONVERSION_FAILED(entity.id, (error as Error).message),
+        );
 
-        throw new Error(`질문 ID ${entity.id} 변환 실패: JSON 파싱 오류`);
+        throw new Error(QUIZ_ERROR_MESSAGES.MULTIPLE_CHOICE_PARSE_ERROR(entity.id));
       }
     } else if (entity.questionType === 'short') {
       if (!entity.correctAnswer) {
-        this.logger.error(`단답형 질문에 답안 누락 (ID: ${entity.id})`);
+        this.logger.error(QUIZ_LOG_MESSAGES.SHORT_ANSWER_MISSING(entity.id));
 
-        throw new Error(`질문 ID ${entity.id} 변환 실패: 답안 누락`);
+        throw new Error(QUIZ_ERROR_MESSAGES.SHORT_ANSWER_MISSING(entity.id));
       }
 
       return {
         ...base,
         type: 'short_answer',
         answer: entity.correctAnswer,
-        keywords: this.DEFAULT_KEYWORDS,
+        keywords: QUIZ_CONSTANTS.DEFAULT_KEYWORDS,
       } as ShortAnswerQuestion;
     } else {
       // essay
       if (!entity.correctAnswer) {
-        this.logger.error(`서술형 질문에 답안 누락 (ID: ${entity.id})`);
+        this.logger.error(QUIZ_LOG_MESSAGES.ESSAY_ANSWER_MISSING(entity.id));
 
-        throw new Error(`질문 ID ${entity.id} 변환 실패: 답안 누락`);
+        throw new Error(QUIZ_ERROR_MESSAGES.ESSAY_ANSWER_MISSING(entity.id));
       }
 
       return {
         ...base,
         type: 'essay',
         sampleAnswer: entity.correctAnswer,
-        keywords: this.DEFAULT_KEYWORDS,
+        keywords: QUIZ_CONSTANTS.DEFAULT_KEYWORDS,
       } as EssayQuestion;
     }
   }
