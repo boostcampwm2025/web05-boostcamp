@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+import { User } from '../../user/entity';
 import { Tier } from './tier.entity';
 
 @Entity('user_tier_hisotries')

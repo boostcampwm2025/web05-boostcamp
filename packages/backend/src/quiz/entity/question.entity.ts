@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryQuestion } from './category-question.entity';
-import { Round } from '../match/round.entity';
-import { UserProblemBank } from '../problem-bank/user-problem-bank.entity';
+import { Round } from '../../match/entity';
+import { UserProblemBank } from '../../problem-bank/entity';
 
 @Entity('questions')
 export class Question {

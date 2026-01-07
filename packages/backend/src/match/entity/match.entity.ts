@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../user/user.entity';
+import { User } from '../../user/entity';
 import { Round } from './round.entity';
-import { UserProblemBank } from '../problem-bank/user-problem-bank.entity';
+import { UserProblemBank } from '../../problem-bank/entity';
 
 @Entity('matches')
 export class Match {

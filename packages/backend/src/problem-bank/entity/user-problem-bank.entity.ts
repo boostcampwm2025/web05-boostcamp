@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../user/user.entity';
-import { Question } from '../question/question.entity';
-import { Match } from '../match/match.entity';
+import { User } from '../../user/entity';
+import { Question } from '../../quiz/entity';
+import { Match } from '../../match/entity';
 
 @Entity('user_problem_banks')
 export class UserProblemBank {

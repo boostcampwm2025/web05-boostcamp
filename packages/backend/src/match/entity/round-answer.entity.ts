@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../user/user.entity';
+import { User } from '../../user/entity/user.entity';
 import { Round } from './round.entity';
 
 @Entity('round_answers')

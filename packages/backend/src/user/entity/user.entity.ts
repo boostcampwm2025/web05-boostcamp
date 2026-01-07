@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserStatistics } from './user-statistics.entity';
-import { UserTierHistory } from '../tier/user-tier-history.entity';
-import { RoundAnswer } from '../match/round-answer.entity';
-import { UserProblemBank } from '../problem-bank/user-problem-bank.entity';
+import { UserTierHistory } from '../../tier/entity';
+import { RoundAnswer } from '../../match/entity';
+import { UserProblemBank } from '../../problem-bank/entity';
 
 @Entity('users')
 export class User {
