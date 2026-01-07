@@ -1,11 +1,11 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MatchGateway } from './match.gateway';
 import { MatchService } from './match.service';
 import { SessionManager } from './session-manager';
-import { GameModule } from '../game/game.module';
+import { QuizModule } from '../quiz/quiz.module';
 
 @Module({
-  imports: [forwardRef(() => GameModule)],
+  imports: [QuizModule],
   providers: [MatchGateway, MatchService, SessionManager],
   exports: [SessionManager],
 })
