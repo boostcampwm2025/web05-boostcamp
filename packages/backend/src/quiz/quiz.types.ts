@@ -49,9 +49,16 @@ export interface GradeResult {
   feedback: string;
 }
 
+export interface FinalResult {
+  winnerId: string | null;
+  scores: Record<string, number>;
+  isDraw: boolean;
+}
+
 export interface RoundResult {
   roundNumber: number;
   grades: GradeResult[];
+  finalResult?: FinalResult;
 }
 
 export type RoundStatus = 'waiting' | 'in_progress' | 'completed';
@@ -64,18 +71,4 @@ export interface RoundData {
     [playerId: string]: Submission | null;
   };
   result: RoundResult | null;
-}
-
-export interface QuizSession {
-  roomId: string;
-  player1Id: string;
-  player2Id: string;
-  currentRound: number;
-  totalRounds: number;
-  rounds: Map<number, RoundData>;
-}
-
-export interface GradingInput {
-  question: Question;
-  submissions: Submission[];
 }
