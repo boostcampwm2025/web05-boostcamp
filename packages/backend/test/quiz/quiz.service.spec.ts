@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { QuizService } from './quiz.service';
-import { Question as QuestionEntity } from './entity';
-import { ClovaClientService } from './clova/clova-client.service';
+import { QuizService } from '../../src/quiz/quiz.service';
+import { Question as QuestionEntity } from '../../src/quiz/entity';
+import { ClovaClientService } from '../../src/quiz/clova/clova-client.service';
 
 describe('QuizService', () => {
   let service: QuizService;
