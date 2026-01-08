@@ -5,7 +5,7 @@ export interface SeedCategory {
 
 export interface SeedQuestion {
   questionType: 'multiple' | 'short' | 'essay';
-  content: string;
+  content: string | { question: string; options: Record<string, string> };
   correctAnswer: string;
   difficulty: number;
   categoryPath: string[];
@@ -26,42 +26,40 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
   // ===== DB > SQL =====
   {
     questionType: 'multiple',
-    content: 'SELECT 문에서 중복을 제거하는 키워드는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'SELECT 문에서 중복을 제거하는 키워드는?',
       options: { A: 'DISTINCT', B: 'UNIQUE', C: 'DIFFERENT', D: 'REMOVE' },
-      answer: 'A',
-    }),
+    },
+    correctAnswer: 'A',
     difficulty: 1,
     categoryPath: ['DB', 'SQL'],
   },
   {
     questionType: 'multiple',
-    content: 'INNER JOIN과 LEFT JOIN의 차이점으로 올바른 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'INNER JOIN과 LEFT JOIN의 차이점으로 올바른 것은?',
       options: {
         A: 'INNER JOIN은 왼쪽 테이블의 모든 데이터를 반환한다',
         B: 'LEFT JOIN은 양쪽 테이블에 모두 존재하는 데이터만 반환한다',
         C: 'INNER JOIN은 양쪽 테이블에 모두 존재하는 데이터만 반환한다',
         D: '둘은 완전히 동일하다',
       },
-      answer: 'C',
-    }),
+    },
+    correctAnswer: 'C',
     difficulty: 2,
     categoryPath: ['DB', 'SQL'],
   },
   {
     questionType: 'short',
-    content: 'GROUP BY와 HAVING의 역할을 각각 설명하세요.',
-    correctAnswer:
-      'GROUP BY는 특정 컬럼을 기준으로 데이터를 그룹화하는 절이고, HAVING은 그룹화된 결과에 대해 조건을 적용하는 절입니다. WHERE는 그룹화 전에 조건을 적용하지만, HAVING은 그룹화 후에 조건을 적용합니다.',
+    content: 'GROUP BY와 HAVING의 차이는?',
+    correctAnswer: 'GROUP BY는 그룹화, HAVING은 그룹화 후 조건',
     difficulty: 2,
     categoryPath: ['DB', 'SQL'],
   },
   {
     questionType: 'short',
-    content: '서브쿼리(Subquery)란 무엇인지 설명하세요.',
-    correctAnswer:
-      '서브쿼리는 SQL 쿼리 내부에 포함된 또 다른 쿼리로, 메인 쿼리에 결과를 제공합니다. SELECT, FROM, WHERE 절 등에서 사용할 수 있으며, 복잡한 데이터 조회나 조건 처리에 활용됩니다.',
+    content: '서브쿼리(Subquery)란?',
+    correctAnswer: '쿼리 내부의 중첩된 쿼리',
     difficulty: 3,
     categoryPath: ['DB', 'SQL'],
   },
@@ -81,51 +79,80 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 4,
     categoryPath: ['DB', 'SQL'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'SQL에서 NULL 값을 체크하는 올바른 방법은?',
+      options: {
+        A: 'WHERE column = NULL',
+        B: 'WHERE column == NULL',
+        C: 'WHERE column IS NULL',
+        D: 'WHERE column EQUALS NULL',
+      },
+    },
+    correctAnswer: 'C',
+    difficulty: 1,
+    categoryPath: ['DB', 'SQL'],
+  },
+  {
+    questionType: 'short',
+    content: 'PRIMARY KEY의 특징은?',
+    correctAnswer: 'UNIQUE + NOT NULL',
+    difficulty: 2,
+    categoryPath: ['DB', 'SQL'],
+  },
+  {
+    questionType: 'essay',
+    content:
+      'INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN의 차이점을 예시와 함께 설명하세요.',
+    correctAnswer:
+      'INNER JOIN은 양쪽 테이블에 모두 존재하는 행만 반환합니다. 예를 들어 사용자와 주문 테이블을 INNER JOIN하면 주문한 사용자만 조회됩니다. LEFT JOIN은 왼쪽 테이블의 모든 행과 오른쪽 테이블의 매칭되는 행을 반환하며, 매칭되지 않으면 NULL을 반환합니다. 주문하지 않은 사용자도 포함됩니다. RIGHT JOIN은 LEFT JOIN의 반대로 오른쪽 테이블 기준입니다. FULL OUTER JOIN은 양쪽 테이블의 모든 행을 반환하며, 매칭되지 않는 부분은 NULL로 채웁니다. 실무에서는 LEFT JOIN이 가장 많이 사용됩니다.',
+    difficulty: 3,
+    categoryPath: ['DB', 'SQL'],
+  },
 
   // ===== DB > B+tree =====
   {
     questionType: 'multiple',
-    content: 'B+tree에 대한 설명으로 올바른 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'B+tree에 대한 설명으로 올바른 것은?',
       options: {
         A: 'B+tree는 이진 트리의 일종이다',
         B: 'B+tree의 모든 데이터는 리프 노드에만 저장된다',
         C: 'B+tree는 균형을 유지하지 않는다',
         D: 'B+tree는 검색만 가능하고 삽입은 불가능하다',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 2,
     categoryPath: ['DB', 'B+tree'],
   },
   {
     questionType: 'multiple',
-    content: 'B+tree에서 검색의 시간 복잡도는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'B+tree에서 검색의 시간 복잡도는?',
       options: {
         A: 'O(1)',
         B: 'O(log n)',
         C: 'O(n)',
         D: 'O(n log n)',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 3,
     categoryPath: ['DB', 'B+tree'],
   },
   {
     questionType: 'short',
-    content: 'B+tree와 B-tree의 차이점을 설명하세요.',
-    correctAnswer:
-      'B+tree는 모든 데이터를 리프 노드에만 저장하고, 내부 노드는 인덱스 역할만 합니다. 또한 리프 노드들이 연결 리스트로 연결되어 범위 검색에 유리합니다. 반면 B-tree는 내부 노드에도 데이터를 저장합니다.',
+    content: 'B+tree와 B-tree의 가장 큰 차이는?',
+    correctAnswer: '데이터 저장 위치 (B+tree는 리프 노드에만)',
     difficulty: 4,
     categoryPath: ['DB', 'B+tree'],
   },
   {
     questionType: 'short',
-    content: 'B+tree가 데이터베이스 인덱스로 많이 사용되는 이유를 설명하세요.',
-    correctAnswer:
-      'B+tree는 균형 잡힌 구조로 검색, 삽입, 삭제가 모두 O(log n) 시간에 가능하며, 디스크 I/O를 최소화하는 구조입니다. 또한 리프 노드가 연결되어 있어 범위 검색에 효율적이고, 순차 접근 성능이 뛰어나기 때문입니다.',
+    content: 'B+tree가 DB 인덱스로 많이 사용되는 이유는?',
+    correctAnswer: '균형 유지, 범위 검색 효율, 디스크 I/O 최소화',
     difficulty: 3,
     categoryPath: ['DB', 'B+tree'],
   },
@@ -145,51 +172,80 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['DB', 'B+tree'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'B+tree의 장점이 아닌 것은?',
+      options: {
+        A: '범위 검색에 효율적이다',
+        B: '균형 잡힌 트리 구조를 유지한다',
+        C: '삽입/삭제 시 O(1) 시간이 걸린다',
+        D: '순차 접근이 빠르다',
+      },
+    },
+    correctAnswer: 'C',
+    difficulty: 3,
+    categoryPath: ['DB', 'B+tree'],
+  },
+  {
+    questionType: 'short',
+    content: 'B+tree의 order란?',
+    correctAnswer: '노드가 가질 수 있는 최대 자식 수',
+    difficulty: 3,
+    categoryPath: ['DB', 'B+tree'],
+  },
+  {
+    questionType: 'essay',
+    content:
+      'B+tree와 해시 테이블을 비교하고, 각각 어떤 상황에서 사용하는 것이 적합한지 설명하세요.',
+    correctAnswer:
+      'B+tree는 O(log n) 검색 시간을 가지며 범위 검색과 정렬된 순회가 가능합니다. 해시 테이블은 O(1) 평균 검색 시간을 가지지만 범위 검색이 불가능합니다. B+tree는 범위 검색이 필요한 경우(예: 날짜 범위, 가격 범위), 정렬된 데이터가 필요한 경우, 부분 일치 검색이 필요한 경우에 적합합니다. 해시 테이블은 정확한 일치 검색만 필요하고 최대한 빠른 검색이 중요한 경우에 적합합니다. 데이터베이스 인덱스는 대부분 B+tree를 사용하는데, 이는 다양한 쿼리 패턴을 지원해야 하기 때문입니다.',
+    difficulty: 4,
+    categoryPath: ['DB', 'B+tree'],
+  },
 
   // ===== DB > Hashing =====
   {
     questionType: 'multiple',
-    content: '해시 테이블의 평균 검색 시간 복잡도는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: '해시 테이블의 평균 검색 시간 복잡도는?',
       options: {
         A: 'O(1)',
         B: 'O(log n)',
         C: 'O(n)',
         D: 'O(n^2)',
       },
-      answer: 'A',
-    }),
+    },
+    correctAnswer: 'A',
     difficulty: 2,
     categoryPath: ['DB', 'Hashing'],
   },
   {
     questionType: 'multiple',
-    content: '해시 충돌(Hash Collision) 해결 방법이 아닌 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: '해시 충돌(Hash Collision) 해결 방법이 아닌 것은?',
       options: {
         A: 'Chaining',
         B: 'Open Addressing',
         C: 'Binary Search',
         D: 'Double Hashing',
       },
-      answer: 'C',
-    }),
+    },
+    correctAnswer: 'C',
     difficulty: 3,
     categoryPath: ['DB', 'Hashing'],
   },
   {
     questionType: 'short',
-    content: 'Chaining 방식의 해시 충돌 해결 방법을 설명하세요.',
-    correctAnswer:
-      'Chaining은 같은 해시 값을 가진 키들을 연결 리스트로 관리하는 방식입니다. 각 해시 버킷에 연결 리스트를 두고, 충돌 발생 시 해당 리스트에 노드를 추가합니다. 검색 시에는 해시 값으로 버킷을 찾은 후 리스트를 순회하여 키를 찾습니다.',
+    content: 'Chaining 방식이란?',
+    correctAnswer: '충돌 시 연결 리스트로 관리',
     difficulty: 3,
     categoryPath: ['DB', 'Hashing'],
   },
   {
     questionType: 'short',
-    content: 'Open Addressing 방식의 해시 충돌 해결 방법을 설명하세요.',
-    correctAnswer:
-      'Open Addressing은 충돌 발생 시 다른 빈 버킷을 찾아 저장하는 방식입니다. 선형 탐사(Linear Probing), 제곱 탐사(Quadratic Probing), 이중 해싱(Double Hashing) 등의 방법으로 다음 버킷을 결정합니다. 모든 데이터가 테이블 내부에 저장되므로 추가 메모리가 필요 없습니다.',
+    content: 'Open Addressing 방식이란?',
+    correctAnswer: '충돌 시 다른 빈 버킷 탐색',
     difficulty: 3,
     categoryPath: ['DB', 'Hashing'],
   },
@@ -210,51 +266,79 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['DB', 'Hashing'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'Double Hashing의 주요 목적은?',
+      options: {
+        A: '해시 값을 두 번 계산하여 보안 강화',
+        B: '충돌 발생 시 두 번째 해시 함수로 탐사 간격 결정',
+        C: '두 개의 해시 테이블 사용',
+        D: '해시 값을 두 배로 확장',
+      },
+    },
+    correctAnswer: 'B',
+    difficulty: 4,
+    categoryPath: ['DB', 'Hashing'],
+  },
+  {
+    questionType: 'short',
+    content: 'Linear Probing의 단점은?',
+    correctAnswer: 'Primary Clustering 발생',
+    difficulty: 4,
+    categoryPath: ['DB', 'Hashing'],
+  },
+  {
+    questionType: 'essay',
+    content: 'Consistent Hashing이 무엇인지 설명하고, 분산 시스템에서 왜 중요한지 서술하세요.',
+    correctAnswer:
+      'Consistent Hashing은 해시 테이블을 원형 링 구조로 구성하여 노드를 추가하거나 제거할 때 최소한의 키만 재배치하는 해싱 기법입니다. 일반적인 해싱은 노드 개수가 변경되면 대부분의 키가 재배치되어야 하지만(전체 키의 k/n), Consistent Hashing은 평균적으로 k/n개의 키만 재배치됩니다(n은 노드 수). 분산 캐시, 로드 밸런서, 분산 데이터베이스에서 노드를 동적으로 추가/제거해야 하는 경우 필수적입니다. Virtual Node 개념을 도입하여 부하 분산을 더욱 균등하게 할 수 있습니다. Redis Cluster, Cassandra, DynamoDB 등에서 활용됩니다.',
+    difficulty: 5,
+    categoryPath: ['DB', 'Hashing'],
+  },
 
   // ===== DB > Sorting =====
   {
     questionType: 'multiple',
-    content: 'Quick Sort의 평균 시간 복잡도는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'Quick Sort의 평균 시간 복잡도는?',
       options: {
         A: 'O(n)',
         B: 'O(n log n)',
         C: 'O(n^2)',
         D: 'O(log n)',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 2,
     categoryPath: ['DB', 'Sorting'],
   },
   {
     questionType: 'multiple',
-    content: '안정 정렬(Stable Sort) 알고리즘이 아닌 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: '안정 정렬(Stable Sort) 알고리즘이 아닌 것은?',
       options: {
         A: 'Merge Sort',
         B: 'Insertion Sort',
         C: 'Quick Sort',
         D: 'Bubble Sort',
       },
-      answer: 'C',
-    }),
+    },
+    correctAnswer: 'C',
     difficulty: 3,
     categoryPath: ['DB', 'Sorting'],
   },
   {
     questionType: 'short',
-    content: '안정 정렬(Stable Sort)이란 무엇인지 설명하세요.',
-    correctAnswer:
-      '안정 정렬은 같은 값을 가진 요소들의 상대적인 순서가 정렬 후에도 유지되는 정렬 알고리즘입니다. 예를 들어, (3,a), (1,b), (3,c)를 정렬할 때 결과가 (1,b), (3,a), (3,c)가 되면 안정 정렬입니다.',
+    content: '안정 정렬(Stable Sort)이란?',
+    correctAnswer: '같은 값의 상대적 순서 유지',
     difficulty: 2,
     categoryPath: ['DB', 'Sorting'],
   },
   {
     questionType: 'short',
-    content: '데이터베이스에서 외부 정렬(External Sort)이 필요한 이유를 설명하세요.',
-    correctAnswer:
-      '외부 정렬은 정렬해야 할 데이터가 메모리보다 클 때 사용하는 정렬 방법입니다. 데이터베이스에서 대용량 테이블을 정렬할 때 모든 데이터를 메모리에 올릴 수 없으므로, 디스크를 활용한 외부 정렬이 필요합니다. 일반적으로 Merge Sort 기반의 다단계 병합을 사용합니다.',
+    content: '외부 정렬(External Sort)이 필요한 이유는?',
+    correctAnswer: '메모리보다 큰 데이터 정렬',
     difficulty: 4,
     categoryPath: ['DB', 'Sorting'],
   },
@@ -274,51 +358,79 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['DB', 'Sorting'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'Heap Sort의 시간 복잡도는?',
+      options: {
+        A: 'O(n)',
+        B: 'O(n log n)',
+        C: 'O(n^2)',
+        D: 'O(log n)',
+      },
+    },
+    correctAnswer: 'B',
+    difficulty: 3,
+    categoryPath: ['DB', 'Sorting'],
+  },
+  {
+    questionType: 'short',
+    content: 'Radix Sort의 시간 복잡도는?',
+    correctAnswer: 'O(d*n) (d는 자릿수)',
+    difficulty: 4,
+    categoryPath: ['DB', 'Sorting'],
+  },
+  {
+    questionType: 'essay',
+    content: 'Counting Sort의 동작 원리와 제약 조건, 그리고 적합한 사용 사례를 설명하세요.',
+    correctAnswer:
+      'Counting Sort는 비교 기반이 아닌 정렬 알고리즘으로, 각 값의 출현 횟수를 세어 정렬합니다. 0부터 k까지의 값 범위에서 각 값의 개수를 카운트 배열에 저장하고, 누적합을 계산한 후 원소를 적절한 위치에 배치합니다. 시간 복잡도는 O(n+k)로 매우 빠르지만, k가 n보다 매우 크면 비효율적입니다. 제약 조건은 정수나 정수로 표현 가능한 데이터만 정렬 가능하고, 값의 범위가 제한적이어야 합니다. O(k)의 추가 공간이 필요하며 안정 정렬입니다. 적합한 사례는 나이, 학년, 점수 등 작은 범위의 정수 데이터를 정렬할 때입니다. Radix Sort의 기반 알고리즘으로도 사용됩니다.',
+    difficulty: 4,
+    categoryPath: ['DB', 'Sorting'],
+  },
 
   // ===== 네트워크 > TCP/IP =====
   {
     questionType: 'multiple',
-    content: 'TCP 3-way handshake의 올바른 순서는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'TCP 3-way handshake의 올바른 순서는?',
       options: {
         A: 'SYN → ACK → FIN',
         B: 'SYN → SYN-ACK → ACK',
         C: 'SYN → ACK → SYN',
         D: 'ACK → SYN → ACK',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 2,
     categoryPath: ['네트워크', 'TCP/IP'],
   },
   {
     questionType: 'multiple',
-    content: 'TCP와 UDP의 차이점으로 올바르지 않은 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'TCP와 UDP의 차이점으로 올바르지 않은 것은?',
       options: {
         A: 'TCP는 연결 지향, UDP는 비연결 지향이다',
         B: 'TCP는 신뢰성을 보장하고, UDP는 보장하지 않는다',
         C: 'TCP는 순서를 보장하고, UDP는 보장하지 않는다',
         D: 'TCP가 UDP보다 항상 빠르다',
       },
-      answer: 'D',
-    }),
+    },
+    correctAnswer: 'D',
     difficulty: 2,
     categoryPath: ['네트워크', 'TCP/IP'],
   },
   {
     questionType: 'short',
-    content: 'TCP의 흐름 제어(Flow Control)가 필요한 이유를 설명하세요.',
-    correctAnswer:
-      '흐름 제어는 송신자가 수신자의 처리 속도보다 빠르게 데이터를 보내지 않도록 조절하는 메커니즘입니다. 수신자의 버퍼가 넘치는 것을 방지하여 데이터 손실을 막고, 수신자가 처리할 수 있는 속도로 데이터를 전송하도록 합니다. TCP는 슬라이딩 윈도우(Sliding Window)를 사용하여 흐름 제어를 수행합니다.',
+    content: 'TCP 흐름 제어(Flow Control)의 목적은?',
+    correctAnswer: '수신자 버퍼 오버플로우 방지',
     difficulty: 3,
     categoryPath: ['네트워크', 'TCP/IP'],
   },
   {
     questionType: 'short',
-    content: 'TCP의 혼잡 제어(Congestion Control)가 필요한 이유를 설명하세요.',
-    correctAnswer:
-      '혼잡 제어는 네트워크의 혼잡 상황을 감지하고 송신 속도를 조절하여 네트워크 붕괴를 방지하는 메커니즘입니다. 네트워크에 과도한 데이터가 전송되면 라우터의 버퍼가 넘치고 패킷 손실이 발생하며, 이는 재전송을 유발하여 혼잡을 더욱 악화시킵니다. TCP는 Slow Start, Congestion Avoidance 등의 알고리즘으로 혼잡 제어를 수행합니다.',
+    content: 'TCP 혼잡 제어(Congestion Control)의 목적은?',
+    correctAnswer: '네트워크 혼잡 방지',
     difficulty: 3,
     categoryPath: ['네트워크', 'TCP/IP'],
   },
@@ -339,51 +451,79 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['네트워크', 'TCP/IP'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'UDP의 특징이 아닌 것은?',
+      options: {
+        A: '비연결 지향',
+        B: '신뢰성 보장 안함',
+        C: '순서 보장',
+        D: '빠른 전송 속도',
+      },
+    },
+    correctAnswer: 'C',
+    difficulty: 2,
+    categoryPath: ['네트워크', 'TCP/IP'],
+  },
+  {
+    questionType: 'short',
+    content: 'TCP의 Sliding Window 기법의 목적은?',
+    correctAnswer: '흐름 제어 및 파이프라이닝',
+    difficulty: 3,
+    categoryPath: ['네트워크', 'TCP/IP'],
+  },
+  {
+    questionType: 'essay',
+    content: 'TCP의 Slow Start와 Congestion Avoidance 알고리즘을 설명하세요.',
+    correctAnswer:
+      'Slow Start는 연결 초기에 혼잡 윈도우(cwnd)를 1 MSS로 시작하여 ACK를 받을 때마다 지수적으로 증가시키는 알고리즘입니다(1→2→4→8...). Slow Start Threshold(ssthresh)에 도달하면 Congestion Avoidance로 전환됩니다. Congestion Avoidance는 cwnd를 선형적으로 증가시켜(RTT마다 1 MSS) 네트워크 용량을 조심스럽게 탐색합니다. 패킷 손실이 감지되면(3 duplicate ACKs 또는 timeout) ssthresh를 cwnd의 절반으로 줄이고 Slow Start를 재시작합니다. Timeout 발생 시 cwnd를 1로 초기화하고, Fast Retransmit/Fast Recovery의 경우 cwnd를 ssthresh로 줄입니다. 이를 통해 네트워크 혼잡을 회피하면서 대역폭을 효율적으로 사용합니다.',
+    difficulty: 5,
+    categoryPath: ['네트워크', 'TCP/IP'],
+  },
 
   // ===== 네트워크 > HTTP =====
   {
     questionType: 'multiple',
-    content: 'HTTP 메서드 중 멱등성(Idempotent)을 보장하지 않는 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'HTTP 메서드 중 멱등성(Idempotent)을 보장하지 않는 것은?',
       options: {
         A: 'GET',
         B: 'PUT',
         C: 'DELETE',
         D: 'POST',
       },
-      answer: 'D',
-    }),
+    },
+    correctAnswer: 'D',
     difficulty: 3,
     categoryPath: ['네트워크', 'HTTP'],
   },
   {
     questionType: 'multiple',
-    content: 'HTTP 상태 코드 중 리다이렉션을 나타내는 범위는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'HTTP 상태 코드 중 리다이렉션을 나타내는 범위는?',
       options: {
         A: '2xx',
         B: '3xx',
         C: '4xx',
         D: '5xx',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 1,
     categoryPath: ['네트워크', 'HTTP'],
   },
   {
     questionType: 'short',
-    content: 'HTTP의 무상태(Stateless) 특징을 설명하세요.',
-    correctAnswer:
-      'HTTP는 무상태 프로토콜로, 서버가 클라이언트의 이전 요청 정보를 저장하지 않습니다. 각 요청은 독립적으로 처리되며, 클라이언트 상태를 유지하려면 쿠키나 세션 같은 별도의 메커니즘이 필요합니다. 이는 서버의 확장성을 높이지만, 상태 관리가 필요한 애플리케이션에서는 추가 구현이 필요합니다.',
+    content: 'HTTP의 Stateless 특징이란?',
+    correctAnswer: '서버가 이전 요청 정보 미저장',
     difficulty: 2,
     categoryPath: ['네트워크', 'HTTP'],
   },
   {
     questionType: 'short',
-    content: 'GET과 POST 메서드의 차이점을 설명하세요.',
-    correctAnswer:
-      'GET은 리소스를 조회하는 메서드로 데이터를 URL의 쿼리 스트링에 포함시키며, 멱등성과 안전성을 보장합니다. 브라우저에서 캐싱되고 북마크 가능합니다. POST는 리소스를 생성하거나 데이터를 제출하는 메서드로 데이터를 요청 본문(body)에 포함시키며, 멱등성을 보장하지 않습니다. 캐싱되지 않고 브라우저 히스토리에 남지 않습니다.',
+    content: 'GET과 POST의 가장 큰 차이는?',
+    correctAnswer: 'GET은 조회/멱등성, POST는 생성/비멱등성',
     difficulty: 2,
     categoryPath: ['네트워크', 'HTTP'],
   },
@@ -403,51 +543,79 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['네트워크', 'HTTP'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'HTTP/3가 사용하는 전송 프로토콜은?',
+      options: {
+        A: 'TCP',
+        B: 'UDP (QUIC)',
+        C: 'SCTP',
+        D: 'DCCP',
+      },
+    },
+    correctAnswer: 'B',
+    difficulty: 4,
+    categoryPath: ['네트워크', 'HTTP'],
+  },
+  {
+    questionType: 'short',
+    content: 'REST API에서 리소스 생성에 사용하는 메서드는?',
+    correctAnswer: 'POST',
+    difficulty: 1,
+    categoryPath: ['네트워크', 'HTTP'],
+  },
+  {
+    questionType: 'essay',
+    content: 'HTTP 쿠키와 세션의 차이점을 설명하고, 각각의 장단점을 서술하세요.',
+    correctAnswer:
+      '쿠키는 클라이언트(브라우저)에 저장되는 작은 데이터 조각으로, 서버가 Set-Cookie 헤더로 전송하면 브라우저가 저장하고 이후 요청마다 자동으로 전송합니다. 세션은 서버에 저장되는 사용자 상태 정보로, 세션 ID만 쿠키로 클라이언트에 전달됩니다. 쿠키의 장점은 서버 부담이 없고 만료 시간 설정이 자유롭지만, 보안에 취약하고(XSS, CSRF) 크기 제한(4KB)이 있습니다. 세션의 장점은 민감한 정보를 서버에 저장하여 보안성이 높지만, 서버 메모리를 사용하고 다중 서버 환경에서 세션 동기화가 필요합니다. 실무에서는 JWT 같은 토큰 기반 인증이나 Redis 같은 외부 세션 스토어를 활용합니다.',
+    difficulty: 3,
+    categoryPath: ['네트워크', 'HTTP'],
+  },
 
   // ===== 네트워크 > DNS =====
   {
     questionType: 'multiple',
-    content: 'DNS가 사용하는 기본 포트 번호는?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'DNS가 사용하는 기본 포트 번호는?',
       options: {
         A: '80',
         B: '443',
         C: '53',
         D: '8080',
       },
-      answer: 'C',
-    }),
+    },
+    correctAnswer: 'C',
     difficulty: 1,
     categoryPath: ['네트워크', 'DNS'],
   },
   {
     questionType: 'multiple',
-    content: 'DNS 레코드 타입 중 IPv4 주소를 나타내는 것은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'DNS 레코드 타입 중 IPv4 주소를 나타내는 것은?',
       options: {
         A: 'A',
         B: 'AAAA',
         C: 'CNAME',
         D: 'MX',
       },
-      answer: 'A',
-    }),
+    },
+    correctAnswer: 'A',
     difficulty: 2,
     categoryPath: ['네트워크', 'DNS'],
   },
   {
     questionType: 'short',
-    content: 'DNS의 주요 역할을 설명하세요.',
-    correctAnswer:
-      'DNS(Domain Name System)는 사람이 읽을 수 있는 도메인 이름(예: www.example.com)을 컴퓨터가 사용하는 IP 주소(예: 192.0.2.1)로 변환하는 시스템입니다. 분산 데이터베이스 구조로 전 세계적으로 운영되며, 계층적 구조로 효율적인 이름 해석을 제공합니다.',
+    content: 'DNS의 주요 역할은?',
+    correctAnswer: '도메인 이름을 IP 주소로 변환',
     difficulty: 1,
     categoryPath: ['네트워크', 'DNS'],
   },
   {
     questionType: 'short',
-    content: 'DNS 캐싱의 목적과 장점을 설명하세요.',
-    correctAnswer:
-      'DNS 캐싱은 한 번 조회한 도메인의 IP 주소를 일정 시간 동안 저장하여 재사용하는 메커니즘입니다. 이를 통해 DNS 서버에 대한 반복적인 쿼리를 줄여 네트워크 트래픽을 감소시키고, 응답 속도를 향상시키며, DNS 서버의 부하를 줄입니다. TTL(Time To Live) 값에 따라 캐시 유효 시간이 결정됩니다.',
+    content: 'DNS 캐싱의 목적은?',
+    correctAnswer: '응답 속도 향상 및 트래픽 감소',
     difficulty: 2,
     categoryPath: ['네트워크', 'DNS'],
   },
@@ -468,51 +636,79 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     difficulty: 5,
     categoryPath: ['네트워크', 'DNS'],
   },
+  {
+    questionType: 'multiple',
+    content: {
+      question: 'CNAME 레코드의 역할은?',
+      options: {
+        A: 'IPv4 주소 매핑',
+        B: '별칭(Alias) 지정',
+        C: '메일 서버 지정',
+        D: 'IPv6 주소 매핑',
+      },
+    },
+    correctAnswer: 'B',
+    difficulty: 2,
+    categoryPath: ['네트워크', 'DNS'],
+  },
+  {
+    questionType: 'short',
+    content: 'DNS의 TTL(Time To Live)이란?',
+    correctAnswer: 'DNS 레코드 캐시 유효 시간',
+    difficulty: 2,
+    categoryPath: ['네트워크', 'DNS'],
+  },
+  {
+    questionType: 'essay',
+    content: 'DNS Amplification Attack이 무엇인지 설명하고, 방어 방법을 서술하세요.',
+    correctAnswer:
+      'DNS Amplification Attack은 DDoS 공격의 일종으로, 공격자가 DNS 서버를 이용해 소량의 요청으로 대량의 응답을 생성하여 피해자에게 전송하는 공격입니다. 공격자는 출발지 IP를 피해자 IP로 위조(IP Spoofing)하고 ANY 쿼리 같은 큰 응답을 유발하는 쿼리를 DNS 서버에 보냅니다. DNS 서버는 피해자에게 수십~수백 배 증폭된 응답을 보내 대역폭을 고갈시킵니다. 방어 방법으로는 첫째, Rate Limiting으로 특정 IP의 쿼리 속도를 제한하고, 둘째, Response Rate Limiting(RRL)으로 동일 응답의 반복을 제한하며, 셋째, ANY 쿼리를 차단하고, 넷째, BCP38(Best Current Practice 38)을 구현하여 ISP 레벨에서 IP Spoofing을 차단합니다. 또한 DNSSEC을 사용하여 DNS 보안을 강화할 수 있습니다.',
+    difficulty: 5,
+    categoryPath: ['네트워크', 'DNS'],
+  },
 
   // ===== 네트워크 > OSI 7계층 =====
   {
     questionType: 'multiple',
-    content: 'OSI 7계층 모델에서 전송 계층(Transport Layer)은 몇 번째 계층인가?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: 'OSI 7계층 모델에서 전송 계층(Transport Layer)은 몇 번째 계층인가?',
       options: {
         A: '3계층',
         B: '4계층',
         C: '5계층',
         D: '6계층',
       },
-      answer: 'B',
-    }),
+    },
+    correctAnswer: 'B',
     difficulty: 1,
     categoryPath: ['네트워크', 'OSI 7계층'],
   },
   {
     questionType: 'multiple',
-    content: '라우터(Router)가 동작하는 OSI 계층은?',
-    correctAnswer: JSON.stringify({
+    content: {
+      question: '라우터(Router)가 동작하는 OSI 계층은?',
       options: {
         A: '1계층 (물리 계층)',
         B: '2계층 (데이터 링크 계층)',
         C: '3계층 (네트워크 계층)',
         D: '4계층 (전송 계층)',
       },
-      answer: 'C',
-    }),
+    },
+    correctAnswer: 'C',
     difficulty: 2,
     categoryPath: ['네트워크', 'OSI 7계층'],
   },
   {
     questionType: 'short',
-    content: 'OSI 7계층 모델의 각 계층 이름을 순서대로 나열하세요.',
-    correctAnswer:
-      '1계층: 물리 계층(Physical Layer), 2계층: 데이터 링크 계층(Data Link Layer), 3계층: 네트워크 계층(Network Layer), 4계층: 전송 계층(Transport Layer), 5계층: 세션 계층(Session Layer), 6계층: 표현 계층(Presentation Layer), 7계층: 응용 계층(Application Layer)',
+    content: 'OSI 7계층을 순서대로 나열하면?',
+    correctAnswer: '물리-데이터링크-네트워크-전송-세션-표현-응용',
     difficulty: 1,
     categoryPath: ['네트워크', 'OSI 7계층'],
   },
   {
     questionType: 'short',
-    content: '데이터 링크 계층(Layer 2)의 주요 역할을 설명하세요.',
-    correctAnswer:
-      '데이터 링크 계층은 물리적으로 연결된 노드 간의 신뢰성 있는 데이터 전송을 담당합니다. MAC 주소를 사용하여 프레임을 전달하고, 오류 검출 및 수정, 흐름 제어를 수행합니다. 이더넷, Wi-Fi, PPP 등이 이 계층에서 동작하며, 스위치가 대표적인 2계층 장비입니다.',
+    content: '데이터 링크 계층(Layer 2)의 주요 역할은?',
+    correctAnswer: 'MAC 주소 기반 프레임 전달, 오류 검출',
     difficulty: 2,
     categoryPath: ['네트워크', 'OSI 7계층'],
   },
@@ -530,6 +726,36 @@ export const SEED_QUESTIONS: SeedQuestion[] = [
     correctAnswer:
       '캡슐화는 송신 측에서 데이터가 상위 계층에서 하위 계층으로 내려가며 각 계층의 헤더(또는 트레일러)가 추가되는 과정입니다. 7계층(응용)에서 사용자 데이터가 생성되고, 6계층(표현)에서 데이터 형식 변환 및 암호화가 이루어집니다. 5계층(세션)에서 세션 정보가 추가되고, 4계층(전송)에서 TCP/UDP 헤더가 붙어 세그먼트가 됩니다. 3계층(네트워크)에서 IP 헤더가 추가되어 패킷이 되고, 2계층(데이터 링크)에서 MAC 헤더와 트레일러가 추가되어 프레임이 됩니다. 마지막으로 1계층(물리)에서 비트 스트림으로 변환되어 전송됩니다. 역캡슐화는 수신 측에서 하위 계층부터 순차적으로 헤더를 제거하며 데이터를 추출하는 과정으로, 각 계층에서 해당 계층의 헤더를 해석하고 제거한 후 상위 계층으로 전달합니다. 이 과정을 통해 계층 간 독립성이 유지되고 모듈화된 네트워크 구조가 가능해집니다.',
     difficulty: 5,
+    categoryPath: ['네트워크', 'OSI 7계층'],
+  },
+  {
+    questionType: 'multiple',
+    content: {
+      question: '네트워크 계층(Layer 3)에서 사용하는 주소 체계는?',
+      options: {
+        A: 'MAC 주소',
+        B: 'IP 주소',
+        C: 'Port 번호',
+        D: 'Domain 이름',
+      },
+    },
+    correctAnswer: 'B',
+    difficulty: 1,
+    categoryPath: ['네트워크', 'OSI 7계층'],
+  },
+  {
+    questionType: 'short',
+    content: '스위치(Switch)가 동작하는 OSI 계층은?',
+    correctAnswer: '2계층 (데이터 링크)',
+    difficulty: 2,
+    categoryPath: ['네트워크', 'OSI 7계층'],
+  },
+  {
+    questionType: 'essay',
+    content: '세션 계층(Layer 5)의 역할과 주요 프로토콜을 설명하세요.',
+    correctAnswer:
+      '세션 계층은 응용 프로그램 간의 대화(세션)를 설정, 관리, 종료하는 역할을 합니다. 데이터 교환의 경계와 동기화를 제공하며, 세션 복구 기능을 통해 통신 중단 시 재개 지점을 관리합니다. 주요 기능으로는 세션 수립 및 해제, 대화 제어(반이중/전이중), 동기화 포인트 설정, 토큰 관리 등이 있습니다. 대표적인 프로토콜로는 NetBIOS(네트워크 기본 입출력 시스템), RPC(Remote Procedure Call), PPTP(Point-to-Point Tunneling Protocol) 등이 있습니다. 실제로 TCP/IP 모델에서는 세션 계층이 응용 계층에 통합되어 있지만, 개념적으로 세션 관리는 여전히 중요한 기능입니다.',
+    difficulty: 4,
     categoryPath: ['네트워크', 'OSI 7계층'],
   },
 ];
